@@ -109,6 +109,8 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 #define MOTHERBOARD		13
 #define PROTOTYPE_PCB	 0	// 1 = first PCB's / 0 = Final
 
+#define RF1000_EXT_BOARD	1	// 1 = mounted / 0 = unmounted
+
 #include "pins.h"
 
 // Override pin definions from pins.h
@@ -1219,8 +1221,12 @@ is always running and is not hung up for some unknown reason. */
 #define BABYSTEP_MULTIPLICATOR 1
 
 /* Define a pin to turn the case light on/off */
+#if RF1000_EXT_BOARD == 1
+#define CASE_LIGHTS_PIN			EXT_BOARD_5	// PJ1 - Extension board Digital IN/OUT 3
+#else
 #define CASE_LIGHTS_PIN				25	// PINA.3, 75, OUT1
-#define CASE_LIGHTS_DEFAULT_ON		 0
+#endif
+#define CASE_LIGHTS_DEFAULT_ON		        1       // Original 0
 
 /* Define a pin to turn the case fan on/off */
 #define	CASE_FAN_PIN				 9	// PINH.6, 18, HZ2
@@ -1292,7 +1298,7 @@ Select the language to use.
 5 = Spanish
 6 = Swedish
 */
-#define UI_LANGUAGE 0
+#define UI_LANGUAGE 1								// Changed to German, original English (0)
 
 /** Animate switches between menus etc. */
 #define UI_ANIMATION false
@@ -1826,7 +1832,7 @@ Enabling of the following feature can be dangerous because it allows to manually
 */
 #define UI_PRINTER_NAME "RF1000"
 #define UI_PRINTER_COMPANY "Conrad SE"
-#define UI_VERSION_STRING "V " REPETIER_VERSION ".59"
+#define UI_VERSION_STRING "V " REPETIER_VERSION ".59 EB"
 
 
 #endif
