@@ -442,6 +442,12 @@ STEPPER_CURRENT_CONTROL
 #define E2_PINS ORIG_E2_STEP_PIN,ORIG_E2_DIR_PIN,ORIG_E2_ENABLE_PIN,
 #define E3_PINS E3_STEP_PIN,E3_DIR_PIN,E3_ENABLE_PIN,
 
+// Servo pins on a RAMPS board are 11,6,5,4
+#define SERVO0_PIN 11
+#define SERVO1_PIN 6
+#define SERVO2_PIN 5
+#define SERVO3_PIN 4
+
 #endif
 #endif
 
@@ -1482,6 +1488,13 @@ STEPPER_CURRENT_CONTROL
 #define ENABLE_KEY_5		    85	// PINH.7, 27, TAST_E5
 #define ENABLE_KEY_6		    86	// PINH.2, 14, TAST_E6
 
+// Servo pins on RF1000 board are 35, 33, 32
+// NOTE: R94 is not mounted on Mainboard, so this will only work if extension board is mounted
+#define SERVO0_PIN 35
+#define SERVO1_PIN 33
+#define SERVO2_PIN 32
+#define SERVO3_PIN -1          // Servo pin 3 does not exsist on RF1000
+
 // /brief Pin definition of IO on extension board
 #if RF1000_EXT_BOARD == 1
 #define EXT_BOARD_0			57	// PINF.3, 94, PF3    Analog IN 0
@@ -1491,12 +1504,6 @@ STEPPER_CURRENT_CONTROL
 #define EXT_BOARD_4			15	// PINJ.0, 63, PJ0    Digital IN/OUT 2
 #define EXT_BOARD_5			14	// PINJ.1, 64, PJ1    Digital IN/OUT 3
 #define EXT_BOARD_6			91	// PINE.2, 91, PE2    Digital/Power OUT 4
-// Servo pins on RF1000 board are 35, 33, 32
-// NOTE: R94 is not mounted on Mainboard, so this will only work if extension board is mounted
-#define SERVO0_PIN 35
-#define SERVO1_PIN 33
-#define SERVO2_PIN 32
-#define SERVO3_PIN -1          // Servo pin 3 does not exsist on RF1000
 #endif // RF1000_EXT_BOARD == 1
 
 #endif // MOTHERBOARD == 13

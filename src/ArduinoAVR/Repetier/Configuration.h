@@ -66,13 +66,13 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 1 = experimental, do not use this value (support the CNC mode, only the endstop at z-min is present)
 2 = support the CNC mode
 */
-#define	FEATURE_CNC_MODE		0
+#define	FEATURE_CNC_MODE		2
 
 /** Define the type of the present extruders */
 #define EXT0_HOTEND_TYPE		HOTEND_TYPE_2
 
 /** Define the type of the present miller hardware */
-#define MILLER_TYPE				MILLER_TYPE_1
+#define MILLER_TYPE				MILLER_TYPE_2
 
 /** Number of extruders. Maximum 6 extruders. */
 #define NUM_EXTRUDER 1
@@ -1168,11 +1168,6 @@ WARNING: Servos can draw a considerable amount of current. Make sure your system
 */
 
 #define FEATURE_SERVO false
-// Servo pins on a RAMPS board are 11,6,5,4
-#define SERVO0_PIN 11
-#define SERVO1_PIN 6
-#define SERVO2_PIN 5
-#define SERVO3_PIN 4
 
 /* A watchdog resets the printer, if a signal is not send within predifined time limits. That way we can be sure that the board
 is always running and is not hung up for some unknown reason. */
