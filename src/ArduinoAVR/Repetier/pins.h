@@ -1416,7 +1416,11 @@ STEPPER_CURRENT_CONTROL
 
 // the RF1000 with CNC functionality can provide min and max endstops at the same pin
 #define ORIG_Z_MIN_PIN          31	// PINC.6, 59, ES3
-#define ORIG_Z_MAX_PIN          31	// PINC.6, 59, ES3
+#if FEATURE_CNC_MODE == 3 && RF1000_EXT_BOARD == 1
+#define ORIG_Z_MAX_PIN 19 // PIND.2, 45, PD2 Digital IN/OUT 0
+#else
+#define ORIG_Z_MAX_PIN 31 // PINC.6, 59, ES3
+#endif
 
 #define ORIG_E0_STEP_PIN        26	// PINA.4, 74, STP_DRV4
 #define ORIG_E0_DIR_PIN         28	// PINA.6, 72, DIR_DRV4

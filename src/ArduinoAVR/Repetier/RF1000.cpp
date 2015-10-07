@@ -6475,7 +6475,7 @@ void processCommand( GCode* pCommand )
 						}
 						case 11:
 						{
-#if FEATURE_CNC_MODE > 0
+#if FEATURE_CNC_MODE > 0 && FEATURE_CNC_MODE < 3
 							Com::printF( PSTR( "operating mode= "), Printer::operatingMode );
 							Com::printF( PSTR( ", Z endstop type= "), Printer::ZEndstopType );
 							Com::printF( PSTR( ", Z-Min= "), Printer::isZMinEndstopHit() );
@@ -6486,6 +6486,17 @@ void processCommand( GCode* pCommand )
 							Com::printF( PSTR( ", stepsSinceZMinEndstop= "), Printer::stepsSinceZMinEndstop );
 							Com::printF( PSTR( ", stepsSinceZMaxEndstop= "), Printer::stepsSinceZMaxEndstop );
 							Com::printFLN( PSTR( ", ZEndstopUnknown= "), Printer::ZEndstopUnknown );
+#else
+							Com::printF( PSTR( "operating mode= "), Printer::operatingMode );
+							Com::printF( PSTR( ", Z endstop type= "), Printer::ZEndstopType );
+							Com::printF( PSTR( ", Z-Min= "), Printer::isZMinEndstopHit() );
+							Com::printF( PSTR( ", Z-Max= "), Printer::isZMaxEndstopHit() );
+							//Com::printF( PSTR( ", lastZDirection= "), Printer::lastZDirection );
+							//Com::printF( PSTR( ", endstopZMinHit= "), Printer::endstopZMinHit );
+							//Com::printF( PSTR( ", endstopZMaxHit= "), Printer::endstopZMaxHit );
+							//Com::printF( PSTR( ", stepsSinceZMinEndstop= "), Printer::stepsSinceZMinEndstop );
+							//Com::printF( PSTR( ", stepsSinceZMaxEndstop= "), Printer::stepsSinceZMaxEndstop );
+							//Com::printFLN( PSTR( ", ZEndstopUnknown= "), Printer::ZEndstopUnknown );
 #endif // FEATURE_CNC_MODE > 0
 							break;
 						}

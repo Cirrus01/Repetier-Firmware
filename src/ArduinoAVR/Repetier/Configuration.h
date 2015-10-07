@@ -65,8 +65,9 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 0 = do not support the CNC mode
 1 = experimental, do not use this value (support the CNC mode, only the endstop at z-min is present)
 2 = support the CNC mode
+3 = support the CNC mode with separated z-endstopps
 */
-#define	FEATURE_CNC_MODE		2
+#define	FEATURE_CNC_MODE		3
 
 /** Define the type of the present extruders */
 #define EXT0_HOTEND_TYPE		HOTEND_TYPE_2
@@ -675,7 +676,7 @@ on this endstop.
 #define MAX_HARDWARE_ENDSTOP_X false
 #define MAX_HARDWARE_ENDSTOP_Y false
 
-#if FEATURE_CNC_MODE == 2
+#if FEATURE_CNC_MODE >= 2
 #define MAX_HARDWARE_ENDSTOP_Z true
 #else
 #define MAX_HARDWARE_ENDSTOP_Z false

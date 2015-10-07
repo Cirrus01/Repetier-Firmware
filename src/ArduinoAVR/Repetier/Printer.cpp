@@ -192,7 +192,7 @@ char Printer::ZEndstopType;
 char Printer::ZEndstopUnknown;
 #endif // FEATURE_CNC_MODE > 0
 
-#if FEATURE_CNC_MODE == 2
+#if FEATURE_CNC_MODE >= 2
 char Printer::lastZDirection;
 char Printer::endstopZMinHit;
 char Printer::endstopZMaxHit;
