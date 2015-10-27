@@ -29,3 +29,7 @@ src/ArduinoAVR/Repetier/Visual Micro/*
 *.cppproj
 *.vcproj
 *.atsuo
+
+src/ArduinoAVR/Repetier/*.cppproj
+src/ArduinoAVR/Repetier/*.vcproj
+src/ArduinoAVR/Repetier/*.atsuo
