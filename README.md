@@ -16,6 +16,11 @@ This version of the firmware can be used as pure printer firmware or as firmware
 In order to enable the support for milling, FEATURE_CNC_MODE must be set to "2".
 The default operating mode can be configured via DEFAULT_OPERATING_MODE.
 
+## Added features
+
+* Extension Board using the IO-port of the RF1000 main board
+* Separation of Z endstopps using two different digital input pins
+
 ## Documentation
 
 For documentation please visit [http://www.repetier.com/documentation/repetier-firmware/](http://www.repetier.com/documentation/repetier-firmware/)
