@@ -234,8 +234,11 @@ Overridden if EEPROM activated.*/
 #define EXT0_X_OFFSET 0
 #define EXT0_Y_OFFSET 0
 // for skeinforge 40 and later, steps to pull the plasic 1 mm inside the extruder, not out.  Overridden if EEPROM activated.
+#if PRINTER_CONFIG == 3
+#define EXT0_STEPS_PER_MM	(300 / 91.17 * 8.75 * RF1000_MICRO_STEPS)
+#else
 #define EXT0_STEPS_PER_MM	(8.75 * RF1000_MICRO_STEPS)
-
+#endif
 // What type of sensor is used?
 // 1 is 100k thermistor (Epcos B57560G0107F000 - RepRap-Fab.org and many other)
 // 2 is 200k thermistor
@@ -406,7 +409,11 @@ The codes are only executed for multiple extruder when changing the extruder. */
 #define EXT1_Y_OFFSET 27
 #endif
 // for skeinforge 40 and later, steps to pull the plasic 1 mm inside the extruder, not out.  Overridden if EEPROM activated.
+#if PRINTER_CONFIG == 3
+#define EXT1_STEPS_PER_MM	(300 / 91.17 * 8.75 * RF1000_MICRO_STEPS)
+#else
 #define EXT1_STEPS_PER_MM	(8.75 * RF1000_MICRO_STEPS)
+#endif
 // What type of sensor is used?
 // 1 is 100k thermistor (Epcos B57560G0107F000 - RepRap-Fab.org and many other)
 // 2 is 200k thermistor
@@ -1754,7 +1761,11 @@ Enabling of the following feature can be dangerous because it allows to manually
 
 /** \brief Configuration of the heat bed scan
 */
+#if PRINTER_CONFIG == 3
+#define HEAT_BED_SCAN_X_START_MM				32																		// [mm] from the left border of the heat bed
+#else
 #define HEAT_BED_SCAN_X_START_MM				15																		// [mm] from the left border of the heat bed
+#endif
 #define HEAT_BED_SCAN_X_START_STEPS				long(XAXIS_STEPS_PER_MM * HEAT_BED_SCAN_X_START_MM)						// [steps]
 #define HEAT_BED_SCAN_X_END_MM					5																		// [mm] from the right border of the heat bed
 #define HEAT_BED_SCAN_X_END_STEPS				long(XAXIS_STEPS_PER_MM * HEAT_BED_SCAN_X_END_MM)						// [steps]
@@ -1764,7 +1775,11 @@ Enabling of the following feature can be dangerous because it allows to manually
 #define HEAT_BED_SCAN_X_STEP_SIZE_MIN_STEPS		long(XAXIS_STEPS_PER_MM * HEAT_BED_SCAN_X_STEP_SIZE_MIN_MM)				// [steps]
 #define HEAT_BED_SCAN_X_MAX_POSITION_STEPS		long(X_MAX_LENGTH * XAXIS_STEPS_PER_MM - HEAT_BED_SCAN_X_END_STEPS)		// [steps]
 
+#if PRINTER_CONFIG == 3
+#define	HEAT_BED_SCAN_Y_START_MM				60																		// [mm] from the front border of the heat bed
+#else
 #define	HEAT_BED_SCAN_Y_START_MM				30																		// [mm] from the front border of the heat bed
+#endif
 #define	HEAT_BED_SCAN_Y_START_STEPS				long(YAXIS_STEPS_PER_MM * HEAT_BED_SCAN_Y_START_MM)						// [steps]
 #define	HEAT_BED_SCAN_Y_END_MM					5																		// [mm] from the back border of the heat bed
 #define	HEAT_BED_SCAN_Y_END_STEPS				long(YAXIS_STEPS_PER_MM * HEAT_BED_SCAN_Y_END_MM)						// [steps]
