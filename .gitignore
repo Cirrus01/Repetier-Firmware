@@ -35,3 +35,5 @@ src/ArduinoAVR/Repetier/Visual Micro/*
 src/ArduinoAVR/Repetier/*.cppproj
 src/ArduinoAVR/Repetier/*.vcproj
 src/ArduinoAVR/Repetier/*.atsuo
+src/ArduinoAVR/Repetier/Repetier.suo
+src/ArduinoAVR/Repetier/Repetier.ncb
