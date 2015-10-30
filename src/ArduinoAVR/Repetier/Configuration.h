@@ -743,7 +743,7 @@ on this endstop.
 #define ENDSTOP_X_BACK_ON_HOME 0
 #define ENDSTOP_Y_BACK_ON_HOME 0
 
-#if FEATURE_CNC_MODE == 2
+#if FEATURE_CNC_MODE >= 2
 #define	LEAVE_Z_MAX_ENDSTOP_AFTER_HOME		long(-ZAXIS_STEPS_PER_MM * 2)	// [steps]
 #else
 // Remark: in case this value is set to non-0, the z-compensation must be made fit for this first

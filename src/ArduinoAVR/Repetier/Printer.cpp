@@ -1353,7 +1353,7 @@ void Printer::homeZAxis()
 	char	nHomeDir;
 
 
-#if FEATURE_CNC_MODE == 2
+#if FEATURE_CNC_MODE >= 2
 
 	nProcess = 1;
 	if( Printer::operatingMode == OPERATING_MODE_PRINT )
@@ -1392,7 +1392,7 @@ void Printer::homeZAxis()
         currentPositionStepsZ = 0;
 #endif // FEATURE_EXTENDED_BUTTONS || FEATURE_PAUSE_PRINTING
 
-#if FEATURE_CNC_MODE > 0
+#if FEATURE_CNC_MODE > 0  && FEATURE_CNC_MODE < 3
 		if( ZEndstopUnknown )
 		{
 			// in case we do not know which z-endstop is currently active, we always move downwards first
@@ -1555,7 +1555,7 @@ void Printer::homeAxis(bool xaxis,bool yaxis,bool zaxis) // home non-delta print
     }
     if(zaxis)
     {
-#if FEATURE_CNC_MODE == 2
+#if FEATURE_CNC_MODE >= 2
 
 		if( Printer::operatingMode == OPERATING_MODE_PRINT )
 		{
