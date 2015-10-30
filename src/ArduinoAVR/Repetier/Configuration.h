@@ -42,18 +42,20 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 
 */
 
-#define	OPERATING_MODE_PRINT	1	// the firmware works in mode "print"
+#define	OPERATING_MODE_PRINT    	1	// the firmware works in mode "print"
 #define OPERATING_MODE_CNC		2	// the firmware works in mode "mill"
 
 #define	HOTEND_TYPE_1			1
 #define	HOTEND_TYPE_2			2	// hotend V1
 #define	HOTEND_TYPE_3			3	// hotend V2
+#define HOTEND_TYPE_4			4	// DGlass
 
 #define MILLER_TYPE_1			1	// one track in x- and y-direction
 #define MILLER_TYPE_2			2	// two tracks in x- and y-direction
 
 #define	ENDSTOP_TYPE_SINGLE		1	// there is only one endstop attached (either the min- or the max-endstop)
-#define	ENDSTOP_TYPE_CIRCUIT	2	// the min- and max-endstops are attached in a single circuit
+#define	ENDSTOP_TYPE_CIRCUIT    	2	// the min- and max-endstops are attached in a single circuit
+//#define ENDSTOP_TYPE_CIRCUIT   	3	// the min- and max-endstops are separated (not in use yet, may come in future)
 
 
 // BASIC SETTINGS: select your board type, thermistor type, axis scaling, and endstop configuration
@@ -67,16 +69,47 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 2 = support the CNC mode
 3 = support the CNC mode with separated z-endstopps
 */
-#define	FEATURE_CNC_MODE		3
+#define	FEATURE_CNC_MODE		0
+
+/** Define extruder configuration
+1 = single extruder
+2 = dual extruder
+3 = DGlass dual extruder
+*/
+#define PRINTER_CONFIG			1
+
+// Define the heat bed compensation offset; set if you are using Dglass extruder otherwise set to 0
+#if PRINTER_CONFIG == 3
+#define HBC_OFFSET_X 14
+#define HBC_OFFSET_Y -21
+#else
+#define HBC_OFFSET_X 0
+#define HBC_OFFSET_Y 0
+#endif
 
 /** Define the type of the present extruders */
+#if PRINTER_CONFIG == 3
+#define EXT0_HOTEND_TYPE		HOTEND_TYPE_4
+#else
 #define EXT0_HOTEND_TYPE		HOTEND_TYPE_2
+#endif
+
+#if PRINTER_CONFIG == 3
+#define EXT1_HOTEND_TYPE		HOTEND_TYPE_4
+#endif
+#if PRINTER_CONFIG == 2
+#define EXT1_HOTEND_TYPE		HOTEND_TYPE_2
+#endif
 
 /** Define the type of the present miller hardware */
 #define MILLER_TYPE				MILLER_TYPE_2
 
 /** Number of extruders. Maximum 6 extruders. */
+#if PRINTER_CONFIG >= 2
+#define NUM_EXTRUDER 2
+#else
 #define NUM_EXTRUDER 1
+#endif
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // Gen3 PLUS for RepRap Motherboard V1.2 = 21
@@ -222,7 +255,12 @@ Overridden if EEPROM activated.*/
 // 100 is AD595
 // 101 is MAX6675
 // 102 is MAX31855
-#define EXT0_TEMPSENSOR_TYPE 3
+#if PRINTER_CONFIG == 3
+	#define EXT0_TEMPSENSOR_TYPE 8
+#else
+	#define EXT0_TEMPSENSOR_TYPE 3
+#endif
+
 // Analog input pin for reading temperatures or pin enabling SS for MAX6675
 #define EXT0_TEMPSENSOR_PIN TEMP_0_PIN
 // Which pin enables the heater
@@ -306,6 +344,23 @@ Overridden if EEPROM activated.*/
 	#define EXT0_PID_D 13
 #endif // EXT0_HOTEND_TYPE == HOTEND_TYPE_3
 
+#if EXT0_HOTEND_TYPE == HOTEND_TYPE_4
+	/** \brief The maximum value, I-gain can contribute to the output. Overridden if EEPROM activated. */
+	#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
+
+	/** \brief lower value for integral part. Overridden if EEPROM activated. */
+	#define EXT0_PID_INTEGRAL_DRIVE_MIN 40
+
+	/** P-gain.  Overridden if EEPROM activated. */
+	#define EXT0_PID_P   11.5
+
+	/** I-gain. Overridden if EEPROM activated. */
+	#define EXT0_PID_I   0.45
+
+	/** Dgain.  Overridden if EEPROM activated.*/
+	#define EXT0_PID_D 100
+#endif // EXT0_HOTEND_TYPE == HOTEND_TYPE_4
+
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define EXT0_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
@@ -330,7 +385,11 @@ to 0 to disable.
 /** You can run any gcode command on extruder deselect/select. Seperate multiple commands with a new line \n.
 That way you can execute some mechanical components needed for extruder selection or retract filament or whatever you need.
 The codes are only executed for multiple extruder when changing the extruder. */
+#if PRINTER_CONFIG == 3
+#define EXT0_SELECT_COMMANDS "M340 P0 S830\nM3200 P100 S1500\nM117 Extruder 1"
+#else
 #define EXT0_SELECT_COMMANDS "M117 Extruder 1"
+#endif
 #define EXT0_DESELECT_COMMANDS ""
 /** The extruder cooler is a fan to cool the extruder when it is heating. If you turn the etxruder on, the fan goes on. */
 #define EXT0_EXTRUDER_COOLER_PIN -1
@@ -339,10 +398,15 @@ The codes are only executed for multiple extruder when changing the extruder. */
 
 
 // =========================== Configuration for second extruder ========================
-#define EXT1_X_OFFSET 10
+#if PRINTER_CONFIG == 3
+#define EXT1_X_OFFSET 27.5
 #define EXT1_Y_OFFSET 0
+#else
+#define EXT1_X_OFFSET 0
+#define EXT1_Y_OFFSET 27
+#endif
 // for skeinforge 40 and later, steps to pull the plasic 1 mm inside the extruder, not out.  Overridden if EEPROM activated.
-#define EXT1_STEPS_PER_MM 51
+#define EXT1_STEPS_PER_MM	(8.75 * RF1000_MICRO_STEPS)
 // What type of sensor is used?
 // 1 is 100k thermistor (Epcos B57560G0107F000 - RepRap-Fab.org and many other)
 // 2 is 200k thermistor
@@ -361,7 +425,11 @@ The codes are only executed for multiple extruder when changing the extruder. */
 // 99 Generic thermistor table 3
 // 100 is AD595
 // 101 is MAX6675
+#if PRINTER_CONFIG == 3
+#define EXT1_TEMPSENSOR_TYPE 8
+#else
 #define EXT1_TEMPSENSOR_TYPE 3
+#endif
 // Analog input pin for reading temperatures or pin enabling SS for MAX6675
 #define EXT1_TEMPSENSOR_PIN TEMP_2_PIN
 // Which pin enables the heater
@@ -393,33 +461,76 @@ The codes are only executed for multiple extruder when changing the extruder. */
 /** Wait x seconds, after reaching target temperature. Only used for M109.  Overridden if EEPROM activated. */
 #define EXT1_WATCHPERIOD 20
 
-/** \brief The maximum value, I-gain can contribute to the output.
+#if EXT1_HOTEND_TYPE == HOTEND_TYPE_1
+	/** \brief The maximum value, I-gain can contribute to the output. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MAX 130
 
-A good value is slightly higher then the output needed for your temperature.
-Values for starts:
-130 => PLA for temperatures from 170-180 deg C
-180 => ABS for temperatures around 240 deg C
+	/** \brief lower value for integral part. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MIN 60
 
-The precise values may differ for different nozzle/resistor combination.
- Overridden if EEPROM activated.
-*/
-#define EXT1_PID_INTEGRAL_DRIVE_MAX 130
-/** \brief lower value for integral part
+	/** P-gain.  Overridden if EEPROM activated. */
+	#define EXT1_PID_P		37.52
 
-The I state should converge to the exact heater output needed for the target temperature.
-To prevent a long deviation from the target zone, this value limits the lower value.
-A good start is 30 lower then the optimal value. You need to leave room for cooling.
- Overridden if EEPROM activated.
-*/
-#define EXT1_PID_INTEGRAL_DRIVE_MIN 50
-/** P-gain.  Overridden if EEPROM activated. */
-#define EXT1_PID_P   500
-/** I-gain.  Overridden if EEPROM activated.
-*/
-#define EXT1_PID_I   1
-/** D-gain.  Overridden if EEPROM activated.*/
-#define EXT1_PID_D 3000
+	/** I-gain. Overridden if EEPROM activated. */
+	#define EXT1_PID_I		10
+
+	/** Dgain.  Overridden if EEPROM activated.*/
+	#define EXT1_PID_D		35.18
+#endif // EXT1_HOTEND_TYPE == HOTEND_TYPE_1
+
+#if EXT1_HOTEND_TYPE == HOTEND_TYPE_2
+	/** \brief The maximum value, I-gain can contribute to the output. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MAX 180
+
+	/** \brief lower value for integral part. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MIN 40
+
+	/** P-gain.  Overridden if EEPROM activated. */
+	#define EXT1_PID_P   20
+
+	/** I-gain. Overridden if EEPROM activated. */
+	#define EXT1_PID_I   5
+
+	/** Dgain.  Overridden if EEPROM activated.*/
+	#define EXT1_PID_D 13
+#endif // EXT1_HOTEND_TYPE == HOTEND_TYPE_2
+
+#if EXT1_HOTEND_TYPE == HOTEND_TYPE_3
+	/** \brief The maximum value, I-gain can contribute to the output. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MAX 180
+
+	/** \brief lower value for integral part. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MIN 40
+
+	/** P-gain.  Overridden if EEPROM activated. */
+	#define EXT1_PID_P   20
+
+	/** I-gain. Overridden if EEPROM activated. */
+	#define EXT1_PID_I   5
+
+	/** Dgain.  Overridden if EEPROM activated.*/
+	#define EXT1_PID_D 13
+#endif // EXT1_HOTEND_TYPE == HOTEND_TYPE_3
+
+#if EXT1_HOTEND_TYPE == HOTEND_TYPE_4
+	/** \brief The maximum value, I-gain can contribute to the output. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MAX 180
+
+	/** \brief lower value for integral part. Overridden if EEPROM activated. */
+	#define EXT1_PID_INTEGRAL_DRIVE_MIN 40
+
+	/** P-gain.  Overridden if EEPROM activated. */
+	#define EXT1_PID_P   11.5
+
+	/** I-gain. Overridden if EEPROM activated. */
+	#define EXT1_PID_I   0.45
+
+	/** Dgain.  Overridden if EEPROM activated.*/
+	#define EXT1_PID_D 100
+#endif // EXT1_HOTEND_TYPE == HOTEND_TYPE_4
+
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
+
 #define EXT1_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
 K is the factor for the quadratic term, which is normally disabled in newer versions. If you want to use
@@ -435,7 +546,11 @@ cog. Direct drive extruder need 0. */
 
 #define EXT1_WAIT_RETRACT_TEMP 	150
 #define EXT1_WAIT_RETRACT_UNITS	0
+#if PRINTER_CONFIG == 3
+#define EXT1_SELECT_COMMANDS "M340 P0 S1113\nM3200 P100 S1500\nM117 Extruder 2"
+#else
 #define EXT1_SELECT_COMMANDS "M117 Extruder 2"
+#endif
 #define EXT1_DESELECT_COMMANDS ""
 /** The extruder cooler is a fan to cool the extruder when it is heating. If you turn the etxruder on, the fan goes on. */
 #define EXT1_EXTRUDER_COOLER_PIN -1
@@ -781,7 +896,9 @@ on this endstop.
 #define MOTOR_CURRENT {135,135,135,135,135} // Values 0-255 (RAMBO 135 = ~0.75A, 185 = ~1A)
 #elif MOTHERBOARD==12
 #define MOTOR_CURRENT {53570,65535,53570,65535,53570} // Values 0-65535 (53570 = ~1.5A)
-#elif MOTHERBOARD==13
+#elif MOTHERBOARD==13 && PRINTER_CONFIG == 3
+#define MOTOR_CURRENT {150,150,126,53,126} // Values 0-255 (126 = ~2A), order: driver 1 (x), driver 2 (y), driver 3 (z), driver 4 (extruder 1), driver 5 (reserved)
+#elif MOTHERBOARD==13 && PRINTER_CONFIG < 3
 #define MOTOR_CURRENT {150,150,126,126,126} // Values 0-255 (126 = ~2A), order: driver 1 (x), driver 2 (y), driver 3 (z), driver 4 (extruder 1), driver 5 (reserved)
 #endif
 

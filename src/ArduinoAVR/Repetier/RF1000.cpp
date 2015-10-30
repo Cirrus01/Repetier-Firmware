@@ -546,6 +546,7 @@ void scanHeatBed( void )
 #endif // REMEMBER_PRESSURE
 
 					g_ZCompensationMatrix[nIndexX][0] = (short)((float)nX / XAXIS_STEPS_PER_MM);	// convert to mm
+					g_ZCompensationMatrix[nIndexX][0] += HBC_OFFSET_X;
 
 					g_nHeatBedScanStatus = 49;
 					g_lastScanTime		 = HAL::timeInMilliseconds();
@@ -648,6 +649,7 @@ void scanHeatBed( void )
 				// remember the z-position and the exact y-position of this row/column
 				g_ZCompensationMatrix[nIndexX][nIndexY] = (short)nZ;
 				g_ZCompensationMatrix[0][nIndexY]		= (short)((float)nY / YAXIS_STEPS_PER_MM);	// convert to mm
+				g_ZCompensationMatrix[0][nIndexY] += HBC_OFFSET_Y;
 
 #if REMEMBER_PRESSURE
 				// remember the pressure and the exact y-position of this row/column
@@ -6486,7 +6488,7 @@ void processCommand( GCode* pCommand )
 							Com::printF( PSTR( ", stepsSinceZMinEndstop= "), Printer::stepsSinceZMinEndstop );
 							Com::printF( PSTR( ", stepsSinceZMaxEndstop= "), Printer::stepsSinceZMaxEndstop );
 							Com::printFLN( PSTR( ", ZEndstopUnknown= "), Printer::ZEndstopUnknown );
-#else
+#elif FEATURE_CNC_MODE == 3
 							Com::printF( PSTR( "operating mode= "), Printer::operatingMode );
 							Com::printF( PSTR( ", Z endstop type= "), Printer::ZEndstopType );
 							Com::printF( PSTR( ", Z-Min= "), Printer::isZMinEndstopHit() );
