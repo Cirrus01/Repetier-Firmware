@@ -20,6 +20,7 @@ The default operating mode can be configured via DEFAULT_OPERATING_MODE.
 
 * Extension Board using the IO-port of the RF1000 main board
 * Separation of Z endstopps using two different digital input pins
+* DGlass HPX2 Max support added
 
 ## Documentation
 
