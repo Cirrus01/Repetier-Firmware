@@ -1291,8 +1291,11 @@ Servos are controlled by a pulse width normally between 500 and 2500 with 1500ms
 
 WARNING: Servos can draw a considerable amount of current. Make sure your system can handle this or you may risk your hardware!
 */
-
+#if PRINTER_CONFIG == 3
+#define FEATURE_SERVO true
+#else
 #define FEATURE_SERVO false
+#endif
 
 /* A watchdog resets the printer, if a signal is not send within predifined time limits. That way we can be sure that the board
 is always running and is not hung up for some unknown reason. */
