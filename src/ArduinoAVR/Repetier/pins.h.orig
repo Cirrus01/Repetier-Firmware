@@ -442,12 +442,15 @@ STEPPER_CURRENT_CONTROL
 #define E2_PINS ORIG_E2_STEP_PIN,ORIG_E2_DIR_PIN,ORIG_E2_ENABLE_PIN,
 #define E3_PINS E3_STEP_PIN,E3_DIR_PIN,E3_ENABLE_PIN,
 
+<<<<<<< HEAD
+=======
 // Servo pins on a RAMPS board are 11,6,5,4
 #define SERVO0_PIN 11
 #define SERVO1_PIN 6
 #define SERVO2_PIN 5
 #define SERVO3_PIN 4
 
+>>>>>>> development59EBendstopps
 #endif
 #endif
 
@@ -1416,11 +1419,15 @@ STEPPER_CURRENT_CONTROL
 
 // the RF1000 with CNC functionality can provide min and max endstops at the same pin
 #define ORIG_Z_MIN_PIN          31	// PINC.6, 59, ES3
+<<<<<<< HEAD
+#define ORIG_Z_MAX_PIN          31	// PINC.6, 59, ES3
+=======
 #if FEATURE_CNC_MODE == 3 && RF1000_EXT_BOARD == 1
 #define ORIG_Z_MAX_PIN 19 // PIND.2, 45, PD2 Digital IN/OUT 0
 #else
 #define ORIG_Z_MAX_PIN 31 // PINC.6, 59, ES3
 #endif
+>>>>>>> development59EBendstopps
 
 #define ORIG_E0_STEP_PIN        26	// PINA.4, 74, STP_DRV4
 #define ORIG_E0_DIR_PIN         28	// PINA.6, 72, DIR_DRV4
@@ -1492,6 +1499,8 @@ STEPPER_CURRENT_CONTROL
 #define ENABLE_KEY_5		    85	// PINH.7, 27, TAST_E5
 #define ENABLE_KEY_6		    86	// PINH.2, 14, TAST_E6
 
+<<<<<<< HEAD
+=======
 // Servo pins on RF1000 board are 35, 33, 32
 // NOTE: R94 is not mounted on Mainboard
 #define SERVO0_PIN 35
@@ -1510,6 +1519,7 @@ STEPPER_CURRENT_CONTROL
 #define EXT_BOARD_6			91	// PINE.2, 91, PE2    Digital/Power OUT 4
 #endif // RF1000_EXT_BOARD == 1
 
+>>>>>>> development59EBendstopps
 #endif // MOTHERBOARD == 13
 
 

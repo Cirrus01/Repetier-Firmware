@@ -201,7 +201,11 @@ public:
 	static char	ZEndstopUnknown;
 #endif // FEATURE_CNC_MODE > 0
 
+<<<<<<< HEAD
+#if FEATURE_CNC_MODE == 2
+=======
 #if FEATURE_CNC_MODE >= 2
+>>>>>>> development59EBendstopps
 	static char				lastZDirection;
 	static char				endstopZMinHit;
 	static char				endstopZMaxHit;

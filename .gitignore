@@ -22,3 +22,20 @@ src/ArduinoAVR/Configuration_ordbot.h
 
 src/ArduinoAVR/Configuration_delta.h
 Configuration_*.h
+
+src/ArduinoAVR/Repetier/Debug/*
+src/ArduinoAVR/Repetier/Visual Micro/*
+
+*.cppproj
+*.vcproj*
+*.*suo
+*.*sln
+
+
+src/ArduinoAVR/Repetier/*.cppproj
+src/ArduinoAVR/Repetier/*.vcproj
+src/ArduinoAVR/Repetier/*.atsuo
+src/ArduinoAVR/Repetier/Repetier.suo
+src/ArduinoAVR/Repetier/Repetier.ncb
+src/ArduinoAVR/Repetier/Repetier.ncb
+src/ArduinoAVR/Repetier/Repetier.suo
